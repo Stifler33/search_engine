@@ -1,0 +1,10 @@
+{
+  "config":{
+    "max_responses":5,
+    "name":"stifler",
+    "version":0.1
+  },
+  "files":[
+    "..\\text1.txt",
+    "..\\text2.txt"]
+}
