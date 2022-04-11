@@ -4,14 +4,13 @@
 
 #ifndef SEARCH_ENGINE_HEADERS_H
 #define SEARCH_ENGINE_HEADERS_H
-#include "nlohmann/json.hpp"
+//#include "nlohmann/json.hpp"
+#include "cmake-build-debug/_deps/json-src/single_include/nlohmann/json.hpp"
 #include <fstream>
 #include <vector>
 #include <iostream>
 using json = nlohmann::json;
 using namespace std;
-
-
 
 class ConverterJSON
 {
@@ -55,6 +54,5 @@ public:
                     "..\\jsonFiles\\answers.json",
                     "..\\jsonFiles\\requests.json"
             };
-
 };
 #endif //SEARCH_ENGINE_HEADERS_H

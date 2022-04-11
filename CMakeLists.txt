@@ -13,15 +13,16 @@ FetchContent_Declare(
 )
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
-include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
-enable_testing()
+
 
 add_executable(search_engine main.cpp headers.h class_implementation.cpp)
+target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
 
-add_executable(myGtest myTest/myGtest.cpp)
+add_executable(myGtest myTest/myGtest.cpp headers.h class_implementation.cpp)
 target_link_libraries(myGtest gtest_main)
 
-target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
+
 #target_link_libraries(search_engine PRIVATE gtest_main)
 include(GoogleTest)
 gtest_discover_tests(myGtest)
+enable_testing()
