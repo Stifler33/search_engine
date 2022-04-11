@@ -5,6 +5,10 @@
     "version":0.1
   },
   "files":[
-    "..\\text1.txt",
-    "..\\text2.txt"]
+    "C:\\userFilesTXT\\About myself.txt",
+    "C:\\userFilesTXT\\I go shopping.txt",
+    "C:\\userFilesTXT\\Learning foreign languages.txt",
+    "C:\\userFilesTXT\\My best friend.txt",
+    "C:\\userFilesTXT\\My everyday meals.txt",
+    "C:\\userFilesTXT\\My family.txt"]
 }
