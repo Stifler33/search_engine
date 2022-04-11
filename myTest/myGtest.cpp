@@ -18,3 +18,11 @@ TEST(sample_test_case, reading_text_files){
     }
     cout << endl;
 }
+
+TEST(sample_test_case, reading_requests){
+    for (auto i : converterJson.GetRequests()){
+        cout << i << " ";
+    }
+    cout << endl;
+    EXPECT_EQ(converterJson.jsonRequests["requests"].size(), converterJson.GetRequests().size());
+}

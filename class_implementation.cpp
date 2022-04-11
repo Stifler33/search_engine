@@ -52,7 +52,7 @@ int ConverterJSON::GetResponsesLimit(){
 }
 vector<string>ConverterJSON::GetTextDocuments(){
     vector<string> textDocuments;
-    for (auto nameFile : jsonConfig["files"]){
+    for (const auto &nameFile : jsonConfig["files"]){
         readingFile.open(nameFile);
         string text;
         if (!readingFile.is_open()){
@@ -66,5 +66,12 @@ vector<string>ConverterJSON::GetTextDocuments(){
         }
     }
     return textDocuments;
+}
+std::vector<std::string> ConverterJSON::GetRequests(){
+    vector<string> listRequests;
+    for (const auto &request : jsonRequests["requests"]){
+        listRequests.push_back(request);
+    }
+    return listRequests;
 }
 ConverterJSON::~ConverterJSON() = default;
