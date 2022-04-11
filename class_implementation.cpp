@@ -24,7 +24,7 @@ ConverterJSON::ConverterJSON() {
                 readingFile.open(i);
                 if (!readingFile.is_open()){
                     jsonAnswer["answers"]["requests"] = {{"result", false}};
-                    jsonAnswer["answers"]["requests"]["relevance"][0] = {{"rank", 0.0}};
+                    jsonAnswer["answers"]["requests"]["relevance"] = {{"docid", 0}, {"rank", 0.0f}};
                     writeFile.open(i);
                     writeFile << jsonAnswer;
                     writeFile.close();
@@ -73,5 +73,17 @@ std::vector<std::string> ConverterJSON::GetRequests(){
         listRequests.push_back(request);
     }
     return listRequests;
+}
+void ConverterJSON::putAnswers(std::vector<std::vector<std::pair<int, float>>> answers) {
+    for (int numberRequest = 0; numberRequest < answers.size(); numberRequest++){
+        string nameRequest = "requests" + to_string(numberRequest);
+        for (auto &relevance : answers[numberRequest]){
+            jsonAnswer["answers"][nameRequest]["relevance"]["docid"] = relevance.first;
+            jsonAnswer["answers"][nameRequest]["relevance"]["rank"] = relevance.second;
+        }
+    }
+    writeFile.open(filePath[1]);
+    writeFile << jsonAnswer;
+    writeFile.close();
 }
 ConverterJSON::~ConverterJSON() = default;

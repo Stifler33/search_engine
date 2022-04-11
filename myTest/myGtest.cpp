@@ -26,3 +26,10 @@ TEST(sample_test_case, reading_requests){
     cout << endl;
     EXPECT_EQ(converterJson.jsonRequests["requests"].size(), converterJson.GetRequests().size());
 }
+
+TEST(sample_test_case, putAnswer){
+    vector<vector<std::pair<int, float>>> answers = {{make_pair(0, 0.1f)}, {make_pair(1, 0.02f)},
+                                                     {{make_pair(2, 0.1f)}}};
+    converterJson.putAnswers(answers);
+    cout << converterJson.jsonAnswer.dump(3) << endl;
+}
