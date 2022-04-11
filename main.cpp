@@ -4,6 +4,8 @@ int main() {
 
     std::cout << "Hello, World!" << std::endl;
     ConverterJSON convJson;
-    cout << convJson.filePath.size();
+    for (auto i : convJson.GetTextDocuments()){
+        cout << i << " ";
+    }
     return 0;
 }

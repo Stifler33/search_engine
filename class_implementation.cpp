@@ -47,5 +47,24 @@ ConverterJSON::ConverterJSON() {
             };
     }
 }
-
+int ConverterJSON::GetResponsesLimit(){
+    return jsonConfig["config"]["max_responses"];
+}
+vector<string>ConverterJSON::GetTextDocuments(){
+    vector<string> textDocuments;
+    for (auto nameFile : jsonConfig["files"]){
+        readingFile.open(nameFile);
+        string text;
+        if (!readingFile.is_open()){
+            cerr << "file " << nameFile << " not open !\n";
+        }else{
+            while (!readingFile.eof()){
+                readingFile >> text;
+                textDocuments.push_back(text);
+            }
+            readingFile.close();
+        }
+    }
+    return textDocuments;
+}
 ConverterJSON::~ConverterJSON() = default;
