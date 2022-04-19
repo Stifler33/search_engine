@@ -97,7 +97,10 @@ void InvertedIndex::UpdateDocumentBase(vector<string> input_docs) {
             string buffer;
             inputStream >> buffer;
             for (int i = 0; i < buffer.size(); i++){
-                buffer.erase(find_first_of(buffer.begin(), buffer.end(), marks.begin(), marks.end()));
+                auto elementToDelete = find_first_of(buffer.begin(), buffer.end(), marks.begin(), marks.end());
+                if (elementToDelete != buffer.end()){
+                    buffer.erase(elementToDelete);
+                }
             }
             docs.push_back(buffer);
         }
@@ -106,9 +109,7 @@ void InvertedIndex::UpdateDocumentBase(vector<string> input_docs) {
 
 void InvertedIndex::getDocks() {
     for (auto &i : docs){
-        for (int r = 0; r < 10; r++){
             cout << "\"" << i << "\"";
-        }
         cout << endl;
     }
 }

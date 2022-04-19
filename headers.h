@@ -25,7 +25,7 @@ public:
 * @return Возвращает список с содержимым файлов перечисленных
 * в config.json
 */
-    std::vector<std::string> GetTextDocuments();
+    vector<string> GetTextDocuments();
 /**
 * Метод считывает поле max_responses для определения предельного
 * количества ответов на один запрос
@@ -36,11 +36,11 @@ public:
 * Метод получения запросов из файла requests.json
 * @return возвращает список запросов из файла requests.json
 */
-    std::vector<std::string> GetRequests();
+    vector<string> GetRequests();
 /**
 * Положить в файл answers.json результаты поисковых запросов
 */
-    void putAnswers(std::vector<std::vector<std::pair<int, float>>> answers);
+    void putAnswers(vector<vector<pair<int, float>>> answers);
 
     json jsonAnswer ;
     json jsonConfig;
@@ -71,18 +71,18 @@ public:
 поиск
 * @param texts_input содержимое документов
 */
-    void UpdateDocumentBase(std::vector<std::string> input_docs);
+    void UpdateDocumentBase(vector<string> input_docs);
 /**
 * Метод определяет количество вхождений слова word в загруженной базе
 документов
 * @param word слово, частоту вхождений которого необходимо определить
 * @return возвращает подготовленный список с частотой слов
 */
-    std::vector<Entry> GetWordCount(const std::string& word);
+    vector<Entry> GetWordCount(const string& word);
     void getDocks();
 private:
-    std::vector<std::string> docs; // список содержимого документов
-    std::map<std::string, std::vector<Entry>> freq_dictionary; // частотный словарь
+    vector<string> docs; // список содержимого документов
+    map<string, vector<Entry>> freq_dictionary; // частотный словарь
 };
 
 #endif //SEARCH_ENGINE_HEADERS_H
