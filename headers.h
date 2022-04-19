@@ -10,6 +10,7 @@
 #include <vector>
 #include <iostream>
 #include <map>
+#include <algorithm>
 using json = nlohmann::json;
 using namespace std;
 
@@ -48,9 +49,9 @@ public:
     ofstream writeFile;
     array<string, 3> filePath =
             {
-                    "..\\jsonFiles\\config.json",
-                    "..\\jsonFiles\\answers.json",
-                    "..\\jsonFiles\\requests.json"
+                    "../jsonFiles/config.json",
+                    "../jsonFiles/answers.json",
+                    "../jsonFiles/requests.json"
             };
 };
 struct Entry {
@@ -78,6 +79,7 @@ public:
 * @return возвращает подготовленный список с частотой слов
 */
     std::vector<Entry> GetWordCount(const std::string& word);
+    void getDocks();
 private:
     std::vector<std::string> docs; // список содержимого документов
     std::map<std::string, std::vector<Entry>> freq_dictionary; // частотный словарь

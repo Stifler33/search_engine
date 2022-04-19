@@ -5,10 +5,10 @@
     "version":0.1
   },
   "files":[
-    "C:\\userFilesTXT\\About myself.txt",
-    "C:\\userFilesTXT\\I go shopping.txt",
-    "C:\\userFilesTXT\\Learning foreign languages.txt",
-    "C:\\userFilesTXT\\My best friend.txt",
-    "C:\\userFilesTXT\\My everyday meals.txt",
-    "C:\\userFilesTXT\\My family.txt"]
+    "/home/vladimir/userFilesTXT/About myself.txt",
+    "/home/vladimir/userFilesTXT/I go shopping.txt",
+    "/home/vladimir/userFilesTXT/Learning foreign languages.txt",
+    "/home/vladimir/userFilesTXT/My best friend.txt",
+    "/home/vladimir/userFilesTXT/My everyday meals.txt",
+    "/home/vladimir/userFilesTXT/My family.txt"]
 }

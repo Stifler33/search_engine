@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "..\\headers.h"
+#include "../headers.h"
 ConverterJSON converterJson;
 TEST(sample_test_case, sample_test)
 {
@@ -32,4 +32,10 @@ TEST(sample_test_case, putAnswer){
                                                      {{make_pair(2, 0.1f)}}};
     converterJson.putAnswers(answers);
     cout << converterJson.jsonAnswer.dump(3) << endl;
+}
+TEST(sample_test_case, UpdateDocumentBase){
+    InvertedIndex invertedIndex;
+    ConverterJSON convert;
+    invertedIndex.UpdateDocumentBase(convert.GetTextDocuments());
+    invertedIndex.getDocks();
 }

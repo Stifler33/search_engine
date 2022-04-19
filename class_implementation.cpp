@@ -6,12 +6,12 @@
 ConverterJSON::ConverterJSON() {
     for (auto i : filePath){
         auto nameFile = [&i](){
-            return i.substr(i.rfind("\\") + 1, i.size());
+            return i.substr(i.rfind("/") + 1, i.size());
         };
             if (nameFile() == "config.json"){
                 readingFile.open(i);
                 if(!readingFile.is_open()){
-                    cout << "config file is empty\n";
+                    cerr << "config file is empty\n";
                     break;
                 }else {
                     readingFile >> jsonConfig;
@@ -87,3 +87,30 @@ void ConverterJSON::putAnswers(std::vector<std::vector<std::pair<int, float>>> a
     writeFile.close();
 }
 ConverterJSON::~ConverterJSON() = default;
+
+void InvertedIndex::UpdateDocumentBase(std::vector<std::string> input_docs) {
+    stringstream inputStream ;
+    initializer_list<char> marks = {'.', ',', '!', '-', '_', '?', ':', ';'};
+    for (auto &part_docs : input_docs){
+        inputStream << part_docs;
+        while (!inputStream.eof()){
+            string buffer;
+            inputStream >> buffer;
+            for (int i = 0; i < buffer.size(); i++){
+                buffer.erase(find_first_of(buffer.begin(), buffer.end(), marks.begin(), marks.end()));
+            }
+            docs.push_back(buffer);
+        }
+    }
+}
+
+void InvertedIndex::getDocks() {
+    for (auto &i : docs){
+        for (int r = 0; r < 10; r++){
+            cout << "\"" << i << "\"";
+        }
+        cout << endl;
+    }
+}
+
+
