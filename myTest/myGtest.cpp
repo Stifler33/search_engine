@@ -13,10 +13,7 @@ TEST(sample_test_case, GetResponsesLimit){
 }
 
 TEST(sample_test_case, reading_text_files){
-    for (auto i : converterJson.GetTextDocuments()){
-        cout << i << " ";
-    }
-    cout << endl;
+    EXPECT_EQ(converterJson.GetTextDocuments().size(), converterJson.jsonConfig["files"].size());
 }
 
 TEST(sample_test_case, reading_requests){

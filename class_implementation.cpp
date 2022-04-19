@@ -54,27 +54,27 @@ vector<string>ConverterJSON::GetTextDocuments(){
     vector<string> textDocuments;
     for (const auto &nameFile : jsonConfig["files"]){
         readingFile.open(nameFile);
-        string text;
+        textDocuments.emplace_back("");
         if (!readingFile.is_open()){
             cerr << "file " << nameFile << " not open !\n";
         }else{
-            while (!readingFile.eof()){
-                readingFile >> text;
-                textDocuments.push_back(text);
+            char c;
+            while (readingFile.get(c)){
+                textDocuments.back() += c;
             }
             readingFile.close();
         }
     }
     return textDocuments;
 }
-std::vector<std::string> ConverterJSON::GetRequests(){
+vector<string> ConverterJSON::GetRequests(){
     vector<string> listRequests;
     for (const auto &request : jsonRequests["requests"]){
         listRequests.push_back(request);
     }
     return listRequests;
 }
-void ConverterJSON::putAnswers(std::vector<std::vector<std::pair<int, float>>> answers) {
+void ConverterJSON::putAnswers(vector<vector<pair<int, float>>> answers) {
     for (int numberRequest = 0; numberRequest < answers.size(); numberRequest++){
         string nameRequest = "requests" + to_string(numberRequest);
         for (auto &relevance : answers[numberRequest]){
@@ -88,7 +88,7 @@ void ConverterJSON::putAnswers(std::vector<std::vector<std::pair<int, float>>> a
 }
 ConverterJSON::~ConverterJSON() = default;
 
-void InvertedIndex::UpdateDocumentBase(std::vector<std::string> input_docs) {
+void InvertedIndex::UpdateDocumentBase(vector<string> input_docs) {
     stringstream inputStream ;
     initializer_list<char> marks = {'.', ',', '!', '-', '_', '?', ':', ';'};
     for (auto &part_docs : input_docs){
