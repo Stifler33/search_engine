@@ -90,19 +90,13 @@ ConverterJSON::~ConverterJSON() = default;
 
 void InvertedIndex::UpdateDocumentBase(vector<string> input_docs) {
     stringstream inputStream ;
-    initializer_list<char> marks = {'.', ',', '!', '-', '_', '?', ':', ';'};
+    initializer_list<char> marks = {'.', ',', '!', '-', '_', '?', ':', ';', '\r', '\n', '\\', '\t'};
     for (auto &part_docs : input_docs){
-        inputStream << part_docs;
-        while (!inputStream.eof()){
-            string buffer;
-            inputStream >> buffer;
-            for (int i = 0; i < buffer.size(); i++){
-                auto elementToDelete = find_first_of(buffer.begin(), buffer.end(), marks.begin(), marks.end());
-                if (elementToDelete != buffer.end()){
-                    buffer.erase(elementToDelete);
-                }
+        docs.emplace_back("");
+        for (auto letter = part_docs.begin(); letter < part_docs.end(); letter++){
+            if (!any_of(marks.begin(), marks.end(), [letter](char mr){return mr == *letter;})){
+                docs.back().push_back(*letter);
             }
-            docs.push_back(buffer);
         }
     }
 }
