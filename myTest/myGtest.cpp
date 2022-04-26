@@ -36,3 +36,12 @@ TEST(sample_test_case, UpdateDocumentBase){
     invertedIndex.UpdateDocumentBase(convert.GetTextDocuments());
     invertedIndex.getDocks();
 }
+
+TEST(sample_test_case, GetWordCount){
+    InvertedIndex invertedIndex;
+    ConverterJSON convert;
+    invertedIndex.UpdateDocumentBase(convert.GetTextDocuments());
+    for (auto entry : invertedIndex.GetWordCount("my")){
+        cout << entry.doc_id << " " << entry.count << endl;
+    }
+}

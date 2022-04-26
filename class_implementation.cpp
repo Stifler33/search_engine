@@ -108,4 +108,19 @@ void InvertedIndex::getDocks() {
     }
 }
 
+vector<Entry> InvertedIndex::GetWordCount(const string &word) {
+    vector<Entry> bufferEntry;
+    for (size_t id = 0; id < docs.size(); id++){
+        size_t count = 0;
+        stringstream currentStream(docs[id]);
+        string wordFromStream;
+        while (!currentStream.eof()){
+            currentStream >> wordFromStream;
+            if (wordFromStream == word) count++;
+        }
+        if (count != 0) bufferEntry.push_back({id, count});
+    }
+    return bufferEntry;
+}
+
 
