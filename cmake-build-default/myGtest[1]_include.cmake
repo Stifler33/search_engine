@@ -1,0 +1,5 @@
+if(EXISTS "/home/vladimir/CLion_project/search_engine/cmake-build-default/myGtest[1]_tests.cmake")
+  include("/home/vladimir/CLion_project/search_engine/cmake-build-default/myGtest[1]_tests.cmake")
+else()
+  add_test(myGtest_NOT_BUILT myGtest_NOT_BUILT)
+endif()

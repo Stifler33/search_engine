@@ -48,11 +48,11 @@ public:
     ifstream readingFile;
     ofstream writeFile;
     array<string, 3> filePath =
-            {
-                    "../jsonFiles/config.json",
-                    "../jsonFiles/answers.json",
-                    "../jsonFiles/requests.json"
-            };
+            {{
+                     "../jsonFiles/config.json",
+                     "../jsonFiles/answers.json",
+                     "../jsonFiles/requests.json"
+             }};
 };
 struct Entry {
     size_t doc_id, count;
@@ -79,10 +79,43 @@ public:
 * @return возвращает подготовленный список с частотой слов
 */
     vector<Entry> GetWordCount(const string& word);
+    void fill_dictionary();
     void getDocks();
+    void getFreq();
+    const map<string, vector<Entry>> &_freq_dictionary = freq_dictionary;
 private:
     vector<string> docs; // список содержимого документов
     map<string, vector<Entry>> freq_dictionary; // частотный словарь
 };
 
+struct RelativeIndex{
+size_t doc_id;
+float rank;
+    bool operator ==(const RelativeIndex& other) const {
+        return (doc_id == other.doc_id && rank == other.rank);
+    }
+};
+
+class SearchServer {
+public:
+/**
+* @param idx в конструктор класса передаётся ссылка на класс
+InvertedIndex,
+*
+чтобы SearchServer мог узнать частоту слов встречаемых в
+запросе
+*/
+SearchServer(InvertedIndex& idx) : _index(idx){ };
+/**
+* Метод обработки поисковых запросов
+* @param queries_input поисковые запросы взятые из файла
+requests.json
+* @return возвращает отсортированный список релевантных ответов для
+заданных запросов
+*/
+std::vector<std::vector<RelativeIndex>> search(const std::vector<std::string>& queries_input);
+private:
+InvertedIndex _index;
+map<size_t, string> listUniqWords;
+};
 #endif //SEARCH_ENGINE_HEADERS_H

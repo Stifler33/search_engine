@@ -1,1 +1,16 @@
-{"answers":{"requests":{"relevance":{"docid":0,"rank":0.0},"result":false},"requests0":{"relevance":{"docid":0,"rank":0.10000000149011612}},"requests1":{"relevance":{"docid":1,"rank":0.019999999552965164}},"requests2":{"relevance":{"docid":2,"rank":0.10000000149011612}}}}
+{"answers":{
+  "requests":{
+    "relevance":{
+      "docid":0,"rank":0.0},
+    "result":false},
+  "requests0":{
+    "relevance":{
+      "docid":0,"rank":0.10000000149011612}},
+  "requests1":{
+    "relevance":{
+      "docid":1,"rank":0.019999999552965164}},
+  "requests2":{
+    "relevance":{
+      "docid":2,"rank":0.10000000149011612}}
+}
+}

@@ -1,0 +1,5 @@
+/snap/clion/189/bin/cmake/linux/bin/cmake -S /home/vladimir/CLion_project/search_engine -B /home/vladimir/CLion_project/search_engine/cmake-build-default
+-- Using the single-header code from /home/vladimir/CLion_project/search_engine/cmake-build-default/_deps/json-src/single_include/
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/vladimir/CLion_project/search_engine/cmake-build-default

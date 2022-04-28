@@ -123,4 +123,44 @@ vector<Entry> InvertedIndex::GetWordCount(const string &word) {
     return bufferEntry;
 }
 
+void InvertedIndex::fill_dictionary() {
+    for (auto &doc : docs){
+        stringstream streamDoc(doc);
+        while (!streamDoc.eof()){
+            string word;
+            streamDoc >> word;
+            freq_dictionary[word] = GetWordCount(word);
+        }
+    }
+}
 
+void InvertedIndex::getFreq() {
+    for (auto &freq : freq_dictionary){
+        cout << freq.first << " ";
+        for (auto entry : freq.second){
+            cout << "{" <<entry.doc_id << ", " << entry.count << "}";
+        }
+        cout << endl;
+    }
+}
+
+
+std::vector<std::vector<RelativeIndex>> SearchServer::search(const vector<std::string> &queries_input) {
+    for (auto &request : queries_input){
+        stringstream requestStream(request);
+        string queryWord;
+        while (!requestStream.eof()){
+            requestStream >> queryWord;
+            if(auto word = _index._freq_dictionary.find(queryWord); word != _index._freq_dictionary.end()){
+                auto sumFreq = [&word](size_t count = 0){
+                    for (auto i : word->second){
+                        count += i.count;
+                    }
+                    return count;
+                };
+                listUniqWords[sumFreq()] = word->first;
+            }
+        }
+    }
+    return std::vector<std::vector<RelativeIndex>>();
+}
