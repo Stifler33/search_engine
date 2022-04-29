@@ -19,10 +19,10 @@ TEST(sample_test_case, GetWordCount){
 TEST(sample_test_case, search){
     InvertedIndex invertedIndex;
     ConverterJSON convert;
-    SearchServer search();
+    SearchServer search(invertedIndex);
     invertedIndex.UpdateDocumentBase(convert.GetTextDocuments());
     invertedIndex.fill_dictionary();
-
+    search.search(convert.GetRequests());
 }
 void TestInvertedIndexFunctionality(
         const vector<string>& docs,

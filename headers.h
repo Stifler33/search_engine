@@ -116,6 +116,6 @@ requests.json
 std::vector<std::vector<RelativeIndex>> search(const std::vector<std::string>& queries_input);
 private:
 InvertedIndex _index;
-map<size_t, string> listUniqWords;
+map<size_t, vector<string>> listUniqWords;
 };
 #endif //SEARCH_ENGINE_HEADERS_H

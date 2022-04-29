@@ -158,9 +158,16 @@ std::vector<std::vector<RelativeIndex>> SearchServer::search(const vector<std::s
                     }
                     return count;
                 };
-                listUniqWords[sumFreq()] = word->first;
+                listUniqWords[sumFreq()].push_back(word->first);
             }
         }
+    }
+    for (auto i : listUniqWords){
+        cout << i.first << " ";
+        for(auto s : i.second){
+            cout << s << ", ";
+        }
+        cout << endl;
     }
     return std::vector<std::vector<RelativeIndex>>();
 }
