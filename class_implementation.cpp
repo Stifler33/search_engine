@@ -146,6 +146,7 @@ void InvertedIndex::getFreq() {
 
 
 std::vector<std::vector<RelativeIndex>> SearchServer::search(const vector<std::string> &queries_input) {
+    vector<vector<RelativeIndex>> relativeIndices;
     for (auto &request : queries_input){
         stringstream requestStream(request);
         string queryWord;
@@ -158,7 +159,14 @@ std::vector<std::vector<RelativeIndex>> SearchServer::search(const vector<std::s
                     }
                     return count;
                 };
-                listUniqWords[sumFreq()].push_back(word->first);
+                size_t _sumFreq = sumFreq();
+                if (!any_of(listUniqWords[_sumFreq].begin(), listUniqWords[_sumFreq].end(), [word](string &s){
+                    if (word->first == s) return true;
+                })) {
+                    listUniqWords[sumFreq()].push_back(word->first);
+                }
+            }else {
+                    listUniqWords[0].push_back(queryWord);
             }
         }
     }
