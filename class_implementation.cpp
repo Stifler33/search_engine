@@ -150,32 +150,23 @@ std::vector<std::vector<RelativeIndex>> SearchServer::search(const vector<std::s
     for (auto &request : queries_input){
         stringstream requestStream(request);
         string queryWord;
+        vector<pair<string, vector<Entry>>> queryWords;
         while (!requestStream.eof()){
             requestStream >> queryWord;
-            if(auto word = _index._freq_dictionary.find(queryWord); word != _index._freq_dictionary.end()){
-                auto sumFreq = [&word](size_t count = 0){
-                    for (auto i : word->second){
-                        count += i.count;
-                    }
-                    return count;
-                };
-                size_t _sumFreq = sumFreq();
-                if (!any_of(listUniqWords[_sumFreq].begin(), listUniqWords[_sumFreq].end(), [word](string &s){
-                    if (word->first == s) return true;
-                })) {
-                    listUniqWords[sumFreq()].push_back(word->first);
-                }
-            }else {
-                    listUniqWords[0].push_back(queryWord);
+            auto foundElement = _index._freq_dictionary.find(queryWord);
+            if (foundElement != _index._freq_dictionary.end()){
+                queryWords.emplace_back(*foundElement);
             }
         }
-    }
-    for (auto i : listUniqWords){
-        cout << i.first << " ";
-        for(auto s : i.second){
-            cout << s << ", ";
+        for (auto a = queryWords.begin(); a != queryWords.end(); a++){
+            for (auto b = queryWords.begin(); b != queryWords.end(); b++){
+                if (a->second.size() < b->second.size()){
+                    auto c = *a;
+                    *a = *b;
+                    *b = c;
+                }
+            }
         }
-        cout << endl;
     }
     return std::vector<std::vector<RelativeIndex>>();
 }
