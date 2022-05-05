@@ -167,6 +167,32 @@ std::vector<std::vector<RelativeIndex>> SearchServer::search(const vector<std::s
                 }
             }
         }
+        vector<size_t> docIdRare;
+        for (auto docId : queryWords.begin()->second){
+            docIdRare.push_back(docId.doc_id);
+        }
+        float rankAbsolute;
+        for (auto &id : docIdRare){
+            for (auto &entry : queryWords){
+                for (auto &count : entry.second){
+                    if (count.doc_id == id) {
+                        rankAbsolute += count.count;
+                    }
+                }
+            }
+
+            for (auto i : relativeIndices){
+                for (auto j : i){
+                    if (j.doc_id == id){
+                        j.rank += rankAbsolute;
+                        break;
+                    }
+                }
+                relativeIndices.push_back({{id, rankAbsolute}});
+            }
+            cout << "";
+        }
+
     }
     return std::vector<std::vector<RelativeIndex>>();
 }

@@ -40,7 +40,7 @@ public:
 /**
 * Положить в файл answers.json результаты поисковых запросов
 */
-    void putAnswers(vector<vector<pair<int, float>>> answers);
+    void putAnswers(vector<vector<pair<size_t, float>>> answers);
 
     json jsonAnswer ;
     json jsonConfig;
