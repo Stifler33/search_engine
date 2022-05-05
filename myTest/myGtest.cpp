@@ -88,3 +88,29 @@ TEST(TestCaseInvertedIndex, TestInvertedIndexMissingWord) {
     };
     TestInvertedIndexFunctionality(docs, requests, expected);
 }
+
+TEST(TestCaseSearchServer, TestSimple) {
+    const vector<string> docs = {
+            "milk milk milk milk water water water",
+            "milk water water sugar sugar",
+            "milk milk milk milk milk water water water water water",
+            "Americano Cappuccino"
+    };
+    const vector<string> request = {"milk water milk water", "sugar Cappuccino"};
+    const std::vector<vector<RelativeIndex>> expected = {
+            {
+                    {2, 1},
+                    {0, 0.7},
+                    {1, 0.3}
+            },
+            {
+                    {}
+            }
+    };
+    InvertedIndex idx;
+    idx.UpdateDocumentBase(docs);
+    idx.fill_dictionary();
+    SearchServer srv(idx);
+    std::vector<vector<RelativeIndex>> result = srv.search(request);
+    ASSERT_EQ(result, expected);
+}

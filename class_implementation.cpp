@@ -74,7 +74,7 @@ vector<string> ConverterJSON::GetRequests(){
     }
     return listRequests;
 }
-void ConverterJSON::putAnswers(vector<vector<pair<int, float>>> answers) {
+void ConverterJSON::putAnswers(vector<vector<pair<size_t, float>>> answers) {
     for (int numberRequest = 0; numberRequest < answers.size(); numberRequest++){
         string nameRequest = "requests" + to_string(numberRequest);
         for (auto &relevance : answers[numberRequest]){
@@ -147,52 +147,42 @@ void InvertedIndex::getFreq() {
 
 std::vector<std::vector<RelativeIndex>> SearchServer::search(const vector<std::string> &queries_input) {
     vector<vector<RelativeIndex>> relativeIndices;
-    for (auto &request : queries_input){
+    for (auto &request: queries_input) {
+        vector<RelativeIndex> listRelativeIndex;
+        //получаем список уникальных слов
+        vector<string> uniqueWords;
         stringstream requestStream(request);
         string queryWord;
-        vector<pair<string, vector<Entry>>> queryWords;
-        while (!requestStream.eof()){
+        while (!requestStream.eof()) {
             requestStream >> queryWord;
-            auto foundElement = _index._freq_dictionary.find(queryWord);
-            if (foundElement != _index._freq_dictionary.end()){
-                queryWords.emplace_back(*foundElement);
+            if (find(uniqueWords.begin(), uniqueWords.end(), queryWord) == uniqueWords.end()){
+                uniqueWords.push_back(queryWord);
             }
         }
-        for (auto a = queryWords.begin(); a != queryWords.end(); a++){
-            for (auto b = queryWords.begin(); b != queryWords.end(); b++){
-                if (a->second.size() < b->second.size()){
-                    auto c = *a;
-                    *a = *b;
-                    *b = c;
+        //сортировать в порядке частоты встречаемости в документах
+        vector<size_t> freqWord;
+        for (auto &word : uniqueWords){
+            size_t count = 0;
+            for (auto entry : _index.GetWordCount(word)){
+                count += entry.count;
+            }
+            freqWord.push_back(count);
+        }
+        for (int id_a = 0; id_a < freqWord.size(); id_a++){
+            for (int id_b = 0; id_b < freqWord.size(); id_b++){
+                if (id_a > id_b){
+                    auto valueFreq = freqWord[id_a];
+                    freqWord[id_a] = freqWord[id_b];
+                    freqWord[id_b] = valueFreq;
+                    auto valueWord = uniqueWords[id_a];
+                    uniqueWords[id_a] = uniqueWords[id_b];
+                    uniqueWords[id_b] = valueWord;
                 }
             }
         }
-        vector<size_t> docIdRare;
-        for (auto docId : queryWords.begin()->second){
-            docIdRare.push_back(docId.doc_id);
-        }
-        float rankAbsolute;
-        for (auto &id : docIdRare){
-            for (auto &entry : queryWords){
-                for (auto &count : entry.second){
-                    if (count.doc_id == id) {
-                        rankAbsolute += count.count;
-                    }
-                }
-            }
-
-            for (auto i : relativeIndices){
-                for (auto j : i){
-                    if (j.doc_id == id){
-                        j.rank += rankAbsolute;
-                        break;
-                    }
-                }
-                relativeIndices.push_back({{id, rankAbsolute}});
-            }
-            cout << "";
-        }
-
+        //по самому редкому слову найти документы в которых оно встречается.
+        vector<size_t> docWithWords;
+        
     }
-    return std::vector<std::vector<RelativeIndex>>();
+    return relativeIndices;
 }
