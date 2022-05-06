@@ -147,6 +147,7 @@ void InvertedIndex::getFreq() {
 
 std::vector<std::vector<RelativeIndex>> SearchServer::search(const vector<std::string> &queries_input) {
     vector<vector<RelativeIndex>> relativeIndices;
+    float maxAbsoluteRelevance = 0;
     for (auto &request: queries_input) {
         vector<RelativeIndex> listRelativeIndex;
         //получаем список уникальных слов
@@ -182,7 +183,41 @@ std::vector<std::vector<RelativeIndex>> SearchServer::search(const vector<std::s
         }
         //по самому редкому слову найти документы в которых оно встречается.
         vector<size_t> docWithWords;
-        
+        for (auto i : _index.GetWordCount(*uniqueWords.begin())){
+            docWithWords.push_back(i.doc_id);
+        }
+        //в этих документах найти остальные слова из запроса и посчитать их абсолютную релевантность
+        vector<RelativeIndex> relativeRequest;
+        for (auto word : uniqueWords){
+            for (auto idDoc: docWithWords){
+                auto entry = _index.GetWordCount(word);
+                for (auto i : entry){
+                    if (i.doc_id == idDoc){
+                        if (!any_of(relativeRequest.begin(), relativeRequest.end(), [idDoc, i](auto rel){
+                            if (rel.doc_id == idDoc){
+                                rel.rank += i.count;
+                                return true;
+                            }
+                            return false;
+                        })){
+                            relativeRequest.push_back({idDoc, float(i.count)});
+                        }
+                    }
+                }
+            }
+        }
+        for (auto i : relativeRequest){
+            if (i.rank > maxAbsoluteRelevance){
+                maxAbsoluteRelevance = i.rank;
+            }
+        }
+        relativeIndices.push_back(relativeRequest);
+    }
+    //Теперь посчитаем относительную релевантность
+    for (auto &i : relativeIndices){
+        for (auto &j : i){
+            j.rank /= maxAbsoluteRelevance;
+        }
     }
     return relativeIndices;
 }

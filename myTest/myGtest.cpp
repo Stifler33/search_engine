@@ -92,11 +92,11 @@ TEST(TestCaseInvertedIndex, TestInvertedIndexMissingWord) {
 TEST(TestCaseSearchServer, TestSimple) {
     const vector<string> docs = {
             "milk milk milk milk water water water",
-            "milk water water sugar sugar",
+            "milk water water",
             "milk milk milk milk milk water water water water water",
             "Americano Cappuccino"
     };
-    const vector<string> request = {"milk water milk water", "sugar Cappuccino"};
+    const vector<string> request = {"milk water", "sugar"};
     const std::vector<vector<RelativeIndex>> expected = {
             {
                     {2, 1},
